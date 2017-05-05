@@ -1,0 +1,40 @@
+# DES
+DES achieved by JS
+<!DOCTYPE html>
+<html>
+<head>
+<title>DES算法的JS实现</title>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+
+<script type="text/javascript" src="main.js" ></script>
+<script type="text/javascript" src="key.js" ></script>
+<script type="text/javascript" src="Data.js" ></script>
+<script type="text/javascript" src="predeal.js" ></script>
+
+
+<link rel="stylesheet" type="text/css" href= "style.css"/>
+</head>
+<body onload="Test()">	
+<form>
+	<label for="keypart">Key:</label>
+	<input  id = "keypart" name ="key" type="text" value= "133457799BBCDFF1"/>
+	<input type = "submit"/>
+</form>
+
+		
+<div class="resultpart">
+		<form name = "result" method="get" action="Test.php" enctype="multipart/form-data">
+			<p>请输入明文：</p>
+			<textarea name="visdata">
+			我是雯小雯SMGJJ1307
+			</textarea><br>
+			<p>请输入密文：</p>
+			<textarea name ="hiddata"></textarea><br>
+			<input type="submit" value="submit"/>
+		</form>
+</div>
+	
+
+</body>
+</html>
+
