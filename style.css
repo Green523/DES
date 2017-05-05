@@ -1,0 +1,48 @@
+	*{
+	margin:0;
+	padding:0;
+}
+form #keypart{
+	margin: 20px 20px auto 20px;
+	height:40px;
+	width:450px;
+}
+form label{
+	height:40px;
+	font-size:20px;
+	margin-left:100px;
+	
+}
+input[type="submit"]{
+	width:90px;
+	height:40px;
+}
+
+
+.resultpart {
+	margin-top:30px;
+	margin-left:50px;
+	border:0px black solid;
+	
+}
+textarea{
+	height:200px;
+	width:500px;
+	margin-left:60px;
+	margin-bottom:15px;
+	overflow-style:scrollbar;
+}
+.resultpart input{
+	text-align:center;
+	margin:10px auto auto 270px;
+	
+}
+p{
+	font-size:20px;
+	margin-bottom:5px;
+	margin-left:60px;
+	
+}
+
+
+
