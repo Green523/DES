@@ -1,25 +1,16 @@
 
-/*已成功测试，能够输出正确的16轮子密钥*/
-
-/* 现在我假设已知这个64bit的密钥，后续完善再补充成从用户处输入*/
 var KeyObj ={
 						key :[],
 						    
-//上面是我假设的64bit的密钥
+
 						 keyIndex :[
 												57, 49, 41, 33, 25, 17,  9,   1, 58, 50, 42, 34, 26, 18,
 												10,   2, 59, 51, 43, 35, 27,19, 11,   3, 60, 52, 44, 36,
 												63, 55, 47, 39, 31, 23, 15,  7, 62, 54, 46, 38, 30, 22,
 												14,   6, 61, 53, 45, 37, 29, 21, 13,  5, 28, 20, 12,  4
 						],
-						
-//上面是64bit的密匙抽出奇偶校验位后形成的56bit密匙需要乱序的下标顺序
-//其中数组的0-27个元素为左28bit密钥L28，28-55个元素为右28bit的密钥R28
-
-						 loopkey : [1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,1],
-						 
-//上面是生成子密钥的步骤之一（密钥的循环移位）的循环矩阵：将L28与 R28分别按照轮数对应的循环左移1位或2位
-//循环左移函数		
+								 loopkey : [1,1,2,2,2,2,2,2,1,2,2,2,2,2,2,1],
+								
 
 						 keyChoiceIndex : [
 												14, 17, 11, 24,  1,  5,  3, 28, 15,  6, 21, 10,
@@ -63,8 +54,23 @@ var KeyObj ={
 }
 //上面是通过function Key64To56() 将密钥的奇偶校验位去掉
 
-/*下面将每一轮的L28与R28分离出来并做循环移位后存入subL28与subR28中，为下一轮子密钥的生成备用*/
-/*每次只移动一位*/
+
+KeyObj.trans=function(str){
+	var dd = new Array()
+	dd =str.split("")
+	var sum =""
+	for(i=0;i<dd.length;i++){
+		dd[i] = (parseInt(dd[i],16)).toString(2)
+		dd[i].length>7?dd[i]=dd[i]
+							:dd[i].length>3?dd[i] = dd[i]
+							:dd[i].length>2?dd[i] = "0"+dd[i]
+							:dd[i].length>1?dd[i] = "00"+dd[i]
+							:dd[i].length>0?dd[i] = "000"+dd[i]
+							:dd[i] ="0000"
+		sum = sum +dd[i]
+	}
+	return sum
+}
 
 KeyObj.aKeyCircleResult=function (circleNum){
 		
@@ -107,7 +113,7 @@ KeyObj.aKeyCircleResult=function (circleNum){
 			for(i=0;i<this.keyChoiceIndex.length;i++){
 			this.subKey[circleNum][i]=newKey[this.keyChoiceIndex[i]-1];
 			}
-
+		
 }
 
 //上面是实现循环左移的函数
@@ -119,6 +125,24 @@ KeyObj.makey=function(){
 	KeyObj.aKeyCircleResult(circleNum)
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
