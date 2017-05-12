@@ -1,5 +1,6 @@
 var Data = {
 			indata : [],
+			outdata:[],
 //上述为从用户处接收到的明文数据，先假设为64bit的标准形式
 			ipIndex : [
 								58, 50, 42, 34, 26, 18, 10, 2, 60, 52, 44, 36, 28, 20, 12, 4,
@@ -70,8 +71,6 @@ var Data = {
 			R32 :[ ]
 }
 
-
-/*	假设我现在的data数据经过解码后是如下dataStr二进制流数据*/
 //******************************初始的L32与R32***************************
 Data.LRGroup=function(temp){
 			var dataArr= new Array()
@@ -186,10 +185,20 @@ Data.Run = function(mode){
 	}
 	/*处理完毕得到结果hidData*/
 	
-	//console.log(Data.Str(hidData))
+	console.log("每一次的明文加密：\r"+Data.Str(hidData))
 
 	return Data.Str(hidData)
 	
 }
+
+
+
+
+
+
+
+
+
+
 
 
