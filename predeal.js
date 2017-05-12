@@ -1,7 +1,7 @@
 var Tran = {
 				mdata : [],
 				nomdata:"",
-				engIndex:[],
+				engIndex:[5,6,7,8,9,10,11,12,13],
 				bindata:[]
 }
 
@@ -46,12 +46,67 @@ Tran.toBin = function(){
 		return sum.split("")
 }
 
+//**********************************解密****************************************
+Tran.toChar=function(temp){		//此处进来一串二进制的数组
+	var j=0
+	var Cha =new Array()
+	var sum=new Array()
+	var con =""
+	var re=""
+	var buf=""
+	
+	for(i=0;i<temp.length;){
+		if(i != (Tran.engIndex[j]*24-j*16)){
+			//此处为汉字还原24bit
+		//8+8+8={4,4}{4,4}[4,4}
+		
+		for(n=0;n<3;n++){
+				buf=""
+					for(k=0;k<2;k++){
+						Cha[k]= temp.substr(i,4)
+						buf=buf+parseInt(Cha[k],2).toString(16)
+						i=i+4
+					}
+					sum[n]=buf
+			}	
+			re ="%"+sum[0]+"%"+sum[1]+"%"+sum[2]
+			
+			con = con+decodeURIComponent(re)
+		
+			
+		}
+		else  if(i == (Tran.engIndex[j]*24-j*16)){
+			//此处为英文字母的还原
+			j++
+			con = con+String.fromCharCode(parseInt(temp.substr(i,8),2))
+			i=i+8
+		}
+		
+	}
+		return con
+		
+}
+
+
+
+
 Tran.Group64=function(groupNum){
 	var groupArr = new Array()
 	for(i=0;i<64;i++){
 		groupArr[i]=Tran.bindata[groupNum*64+i]
 	}
 	return groupArr
+}
+
+//***********************多个64bits二进制数据的显示********************
+Tran.allData=function(mode){
+		var DataStr=""
+		for(n=0;n<Tran.bindata.length/64;n++){
+			Data.indata=Tran.Group64(n)
+			DataStr=DataStr+Data.Run(mode)		//得到明文的二进制字符串或密文的
+		}
+		console.log("DES加密后的密文：\r"+DataStr)		//此处的DataStr应该与hidata相同
+	return DataStr
 }
 
 Tran.displayHiData = function(str){		//加密后显示
@@ -70,71 +125,17 @@ Tran.displayHiData = function(str){		//加密后显示
 //***************************************解密格式时使用**********************************
 Tran.visDataDeal=function(str){		//输入为明文字符串，解密后为密文
 	var hidata = ""
-	var regExp = /100(\d+)$/ig
-	var temp = ""
+	var temp = []
 	for(i=0;i<str.length;i++){
-		var engBin = str.charCodeAt(i).toString(2) 		//str.charCodeAt(i)还原为十进制
-			  regExp.exec(engBin)
-			  temp = RegExp.$1
-			   hidata=hidata+temp
+		var engBin = str.charCodeAt(i).toString(2) 		//此处为二进制代码，str.charCodeAt(i)还原为十进制
+		hidata=hidata+engBin.substr(3,4)
 	}
+	
+	//console.log(hidata)
 	return hidata
 }
-//**********************************解密****************************************
-Tran.decod=function(DataStr){
-			var arr1 = new Array()
-			var cha8=""
-			var sum=""
-			var 
-			arr1 = DataStr.split("")
-			for(i=0;i<DataStr.length;){
-				for(j=0;j<Tran.engIndex.length;j++){
-					 if(i != Tran.engIndex[j]*24){
-						 //汉字的处理
-						 i = i+24
-					 }
-					else{
-						for(k=0;k<8;k++){
-							cha8=cha8+DataStr[i+k]	
-							sum= sum+String.fromCharCode(parseInt(cha8,2))
-						}
-						 i=i+8
-					 }
-					
-				}
-
-				
-			}
-	
-}
 
 
 
-//*********************************所有注释*********************************************
-/*
-1.
-	Tran.transChinToBin的功能为将字符串转化为二进制的字符串并返回
-	具体实现是将汉字的码字同义转换为UTF-8的模式，转换方法为：
-	1.在UTF-8中汉字占3个字节，英文等字符占一个字节（這里假设都是汉字的编码）
-	2.用encodeURI（）得到%（十六进制数1）%（十六进制数2）%（十六进制数3）
-	3.将十六进制数123提取出来，转化为二进制数（共6×4=24bits）
-2.
-	将英文字符转换为二进制
-	temp = parseInt(temp,2)//字符串的二进制转十进制
-	console.log(String.fromCharCode(temp))转换为字符串
-3.
-	如何判别split后的字符是汉字还是字母：
-		1.用encodeURIComponent().length
-		2.如果是汉字则长度为9，如果是字母数字则长度为1
-	 如何判别split后的字符是数字还是字母：
-		1.用Unicode的编码范围来确定
-4.//console.log(parseInt(str.substr(j*8,8),2))
-	//console.log((String.fromCharCode(parseInt(str.substr(j*4,4),2))))	//字
-	//	console.log((String.fromCharCode(parseInt(str.substr(j*8,8),2)).charCodeAt(0)))  //还原为十进制
-5.
-temp.length>3?temp = temp
-							:temp.length>2?temp = "0"+temp
-							:temp.length>1?temp = "00"+temp
-							:temp.length>0?temp = "000"+temp
-							:temp ="0000"
-*/
+
+
